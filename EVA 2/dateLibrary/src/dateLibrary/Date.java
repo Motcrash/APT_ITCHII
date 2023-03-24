@@ -1,46 +1,62 @@
 package dateLibrary;
 
 public class Date {
-    private int day, month, year;
+    private String day, month, year;
     
     public Date(int day, int month, int year) throws Exception{
         if((day>31 || day<1)){
             throw new invalidDay("Día inválido");
         }else if((month>12 || month < 1)){
             throw new invalidMonth("Mes inválido");
+        }else if(year<1000 || year>9999){
+            throw new invalidMonth("Año inválido");
         }else{
-            this.day = day;
-            this.month = month;
-            this.year = year;
+            if(day<10){
+                this.day = "0"+day;
+            }else this.day = Integer.toString(day);
+            
+            if(month<10){
+                this.month = "0"+month;
+            }else this.month = Integer.toString(month);
+            
+            this.year = Integer.toString(year);
         }
     }
 
-    public int getDay() {
+    public String getDay() {
         return day;
     }
 
     public void setDay(int day) throws invalidDay{
         if(day>31 || day<1){
             throw new invalidDay("Día inválido");
-        }else this.day = day;
+        }else {
+            if(day<10){
+                this.day = "0"+day;
+            }else this.day = Integer.toString(day);
+        }
     }
 
-    public int getMonth() {
+    public String getMonth() {
         return month;
     }
 
     public void setMonth(int month) throws invalidMonth{
         if(month>12 || month < 1){
             throw new invalidMonth("Mes inválido");
-        }else this.month = month;
+        }else {
+            if(month<10){
+                this.month = "0"+month;
+            }else this.month = Integer.toString(month);
+        }
     }
 
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 
     public void setYear(int year) {
-        this.year = year;
+        this.year = Integer.toString(year);
     }
     
     
