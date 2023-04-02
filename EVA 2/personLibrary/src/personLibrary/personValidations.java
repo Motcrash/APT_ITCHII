@@ -32,11 +32,10 @@ public class personValidations {
             this.dte = dte;
             this.sex = sex;
             
-            String realCurp="";
-            realCurp+= validateSurname(fSurname, mSurname, name)+dte.getYear().substring(2, 4)+dte.getMonth()+dte.getDay()+sex+stateValidate(state)+
-                    lettersValidate(fSurname, mSurname, name)+randomValidate();
+            String realCurp = validateSurname(fSurname, mSurname, name, curp)+dateValidate(dte.getYear().substring(2, 4)+dte.getMonth()+dte.getDay(), curp)+sexValidate(String.valueOf(sex), curp)+stateValidate(state, curp)+
+                    lettersValidate(fSurname, mSurname, name)+randomGenerate();
             
-            if(realCurp.substring(0, 17).equalsIgnoreCase(curp.substring(0,17))){
+            if(!realCurp.substring(0, 16).equalsIgnoreCase(curp.substring(0,16))){
                 JFrame f = new JFrame();   
                 JOptionPane.showMessageDialog(f, "La curp no es válida", "Error", JOptionPane.ERROR_MESSAGE);
             }else {
@@ -109,7 +108,7 @@ public class personValidations {
             this.sex = sex;
         }
         
-        public String validateSurname(String fSurname, String mSurname, String name){
+        public String validateSurname(String fSurname, String mSurname, String name, String curp){
             char[] curpArray = new char[4];
             char[] surname = (fSurname.toLowerCase()).toCharArray();
             
@@ -123,12 +122,33 @@ public class personValidations {
             
             curpArray[2] = mSurname.charAt(0);
             curpArray[3] = name.charAt(0);
-            
             fSurname = String.valueOf(curpArray).toUpperCase();
+            
+            if(!fSurname.equalsIgnoreCase(curp.substring(0, 4))){
+                JFrame f = new JFrame();   
+                JOptionPane.showMessageDialog(f, "Los nombres no coinciden con la CURP ingresada", "Error", JOptionPane.WARNING_MESSAGE);
+            }
+            
             return fSurname;
         }
         
-        public String stateValidate(String state){
+        public String dateValidate(String date, String curp){
+            if(!date.equalsIgnoreCase(curp.substring(4,10))){
+                JFrame f = new JFrame();   
+                JOptionPane.showMessageDialog(f, "La fecha no coincide con la curp ingresada", "Error", JOptionPane.WARNING_MESSAGE);
+            }
+            return date;
+        }
+        
+        public String sexValidate(String sex, String curp){
+            if(!sex.equalsIgnoreCase(curp.substring(10,11))){
+                JFrame f = new JFrame();   
+                JOptionPane.showMessageDialog(f, "El sexo no coincide con la curp ingresada", "Error", JOptionPane.WARNING_MESSAGE);
+            }
+            return sex;
+        }
+        
+        public String stateValidate(String state, String curp){
             char[] arrayState = (state.toLowerCase()).toCharArray();
             char[] curpArray = new char[2];
             for (int i = 0; i < arrayState.length; i++) {
@@ -139,6 +159,10 @@ public class personValidations {
                 }
             }
             state = String.valueOf(curpArray).toUpperCase();
+            if(!state.equalsIgnoreCase(curp.substring(11, 13))){
+                JFrame f = new JFrame();   
+                JOptionPane.showMessageDialog(f, "El estado no coincide con la curp ingresada", "Error", JOptionPane.WARNING_MESSAGE);
+            }
             return state;
         }
         
@@ -170,10 +194,15 @@ public class personValidations {
             }
             
             name = String.valueOf(curpArray).toUpperCase();
+            
+            if(!name.equalsIgnoreCase(curp.substring(13, 16))){
+                JFrame f = new JFrame();   
+                JOptionPane.showMessageDialog(f, "El apellido y/o el nombre no coinciden con la curp ingresada", "Error", JOptionPane.WARNING_MESSAGE);
+            }
             return name;
         }
         
-        public String randomValidate(){
+        public String randomGenerate(){
            int rand = (int) (Math.random() * 100);
             int j = 65 + (rand % 26);
             char c = (char) j;

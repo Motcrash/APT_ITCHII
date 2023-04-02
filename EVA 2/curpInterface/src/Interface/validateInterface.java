@@ -3,11 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Interface;
+import personLibrary.*;
+import dateLibrary.Date;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
-/**
- *
- * @author egdel
- */
 public class validateInterface extends javax.swing.JFrame {
 
     /**
@@ -141,10 +141,21 @@ public class validateInterface extends javax.swing.JFrame {
     }//GEN-LAST:event_fldPhoneNumberActionPerformed
 
     private void btnValidateCurpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidateCurpActionPerformed
-        String curp = fldCURP.getText(), fSurname = fldFSurname.getText(), mSurname = fldMSurname.getText();
-        
-        if(curp.substring(0,3).equalsIgnoreCase(fSurname.substring(0,1)+mSurname.substring(0,1))){
-            
+        String curp = fldCURP.getText(), fSurname = fldFSurname.getText(), mSurname = fldMSurname.getText(), name = fldName.getText(),
+               phoneNumber = fldPhoneNumber.getText(), state = fldState.getText();
+        if(fldCURP.getText().equalsIgnoreCase("") || fldFSurname.getText().equalsIgnoreCase("") || fldMSurname.getText().equalsIgnoreCase("") || fldName.getText().equalsIgnoreCase("") ||
+               fldPhoneNumber.getText().equalsIgnoreCase("") || fldState.getText().equalsIgnoreCase("") ){
+            JFrame f = new JFrame();   
+            JOptionPane.showMessageDialog(f, "Rellene todos los campos", "Error", JOptionPane.WARNING_MESSAGE);
+        }else {
+            char sex = (cbSex.getSelectedItem().toString()).charAt(0);
+            try {
+                Date dte = new Date(Integer.parseInt(fldDay.getText()), Integer.parseInt(fldMonth.getText()), Integer.parseInt(fldYear.getText()));
+                personValidations pV = new personValidations(curp, fSurname, mSurname, name, phoneNumber, state, dte, sex);
+            } catch (Exception e) {
+                JFrame f = new JFrame();   
+                JOptionPane.showMessageDialog(f, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_btnValidateCurpActionPerformed
 
